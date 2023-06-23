@@ -28,7 +28,7 @@ router.get(
 
 );
 
-router.get("/me", isAuthenticated , myProfile);
+// router.get("/me", isAuthenticated , myProfile);
 router.post("/contact",isAuthenticated, createContactData)
 
 router.get("/logout", logout);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import ErrorHandler from "../utils/ErrorHandler";
+import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const connectDB = async () => {
     try {

@@ -105,8 +105,8 @@ export const getStripeAPiKey = asyncError(async (req, res, next) => {
 
 export const getMyOrders = asyncError(async (req, res, next) => {
   const { user } = req.body;
-
-  const orders = await Order.find(user).populate("user", "name");
+  console.log(id)
+  const orders = await Order.find({user}).populate("user", "name");
 
   res.status(200).json({
     success: true,
