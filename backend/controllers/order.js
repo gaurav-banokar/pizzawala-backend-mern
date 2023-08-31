@@ -4,7 +4,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import Stripe from "stripe";
 
 
-export const createOrder = asyncError(async (req, res, next) => { 
+export const createOrder = asyncError(async (req, res, next) => {
   const {
     shippingInfo,
     orderItems,
@@ -104,9 +104,9 @@ export const getStripeAPiKey = asyncError(async (req, res, next) => {
 })
 
 export const getMyOrders = asyncError(async (req, res, next) => {
-  const { user } = req.body;
-  console.log(id)
-  const orders = await Order.find({user}).populate("user", "name");
+
+
+  const orders = await Order.find({ user: req.query.user }).populate("user", "name");
 
   res.status(200).json({
     success: true,
@@ -115,8 +115,7 @@ export const getMyOrders = asyncError(async (req, res, next) => {
 });
 
 export const getOrderDetails = asyncError(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate("user", "name");
-  if (!order) return next(new ErrorHandler("Invalid Order Id", 404));
+  const order = await Order.findById(req.query.id).populate("user", "name");
 
   res.status(200).json({
     success: true,

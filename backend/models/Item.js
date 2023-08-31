@@ -21,6 +21,10 @@ const itemSchema = new mongoose.Schema({
     itemPrice: {
         type:String,
         required:true,
+    },
+    itemCategory: {
+        type:String,
+        required:true
     }
 })
 

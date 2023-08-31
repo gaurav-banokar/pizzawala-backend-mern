@@ -13,18 +13,18 @@ import { authorizeAdmin, isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/createorder", isAuthenticated, createOrder);
+router.post("/createorder",  createOrder);    // add isAuthenticated middleware
 
 
-router.get("/myOrders", isAuthenticated, getMyOrders);
+router.get("/myOrders", getMyOrders);// add isAuthenticated middleware
 
-router.get("/myOrders/order/:id", getOrderDetails);
+router.get("/myOrders/order", getOrderDetails);
 
 
 router.post("/create-payment-intent",createPaymentIntent)
 router.get("/stripeApiKey",getStripeAPiKey)
 
-router.post("/createOrderOnline",isAuthenticated,createOrderOnline)
+router.post("/createOrderOnline",createOrderOnline) // add isAuthenticated middleware
 
 
 
