@@ -5,7 +5,7 @@ import {
   logout,
   myProfile,
 } from "../controllers/user.js";
-import {  isAuthenticated } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -19,17 +19,17 @@ router.get(
 router.get(
   "/login",
   passport.authenticate("google"),
-  
-  (req,res) => {
-    
+
+  (req, res) => {
+
     res.redirect(process.env.FRONTEND_URL)
   }
-  
+
 
 );
 
-// router.get("/me", isAuthenticated , myProfile);
-router.post("/contact",isAuthenticated, createContactData)
+router.get("/me", isAuthenticated, myProfile);
+router.post("/contact", isAuthenticated, createContactData)
 
 router.get("/logout", logout);
 
