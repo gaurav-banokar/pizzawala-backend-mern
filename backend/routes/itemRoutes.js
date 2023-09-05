@@ -3,6 +3,7 @@ import { createItem, getAllItemsByCategory, getAllItemsBySearch, getItem } from 
 import singleUpload from "../middlewares/multer.js";
 import { asyncError } from "../middlewares/errorMiddleware.js";
 import { Item } from "../models/Item.js";
+import { authorizeAdmin } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -10,6 +11,6 @@ const router = express.Router();
 router.get("/getAllItemsBySearch", getAllItemsBySearch);
 router.get("/getAllItemsByCategory",getAllItemsByCategory);
 router.get("/item/:id", getItem);
-router.post("/admin/item/new", singleUpload, createItem)
+router.post("/admin/item/new", singleUpload,authorizeAdmin, createItem)
 
 export default router;
