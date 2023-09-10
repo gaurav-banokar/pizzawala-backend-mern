@@ -2,10 +2,13 @@ import express from "express";
 import passport from "passport";
 import {
   createContactData,
+  getProfilePhoto,
   logout,
   myProfile,
+  uploadProfileImage,
 } from "../controllers/user.js";
 import { isAuthenticated } from "../middlewares/auth.js";
+import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
 
@@ -29,9 +32,11 @@ router.get(
 );
 
 router.get("/me", isAuthenticated, myProfile);
+router.get("/profile-photo",isAuthenticated,getProfilePhoto)
+router.post("/upload-profile-photo",isAuthenticated,singleUpload, uploadProfileImage)
 router.post("/contact", isAuthenticated, createContactData)
 
-router.get("/logout", logout);
+router.get("/logout",isAuthenticated, logout);
 
 
 

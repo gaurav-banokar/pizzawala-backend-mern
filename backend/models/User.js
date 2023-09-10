@@ -18,6 +18,14 @@ const schema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  profilePhoto: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String
+    }
+  }
 });
 
 export const User = mongoose.model("User", schema);

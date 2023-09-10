@@ -1,8 +1,6 @@
 import { asyncError } from "../middlewares/errorMiddleware.js";
 import { Order } from "../models/Order.js";
-import ErrorHandler from "../utils/ErrorHandler.js";
 import Stripe from "stripe";
-
 
 export const createOrder = asyncError(async (req, res, next) => {
   const {
@@ -13,11 +11,8 @@ export const createOrder = asyncError(async (req, res, next) => {
     taxPrice,
     shippingCharges,
     totalAmount,
-    user
+    user,
   } = req.body;
-
-
-
 
   const orderOptions = {
     shippingInfo,
@@ -38,7 +33,6 @@ export const createOrder = asyncError(async (req, res, next) => {
   });
 });
 
-
 export const createOrderOnline = asyncError(async (req, res, next) => {
   const {
     shippingInfo,
@@ -49,11 +43,8 @@ export const createOrderOnline = asyncError(async (req, res, next) => {
     shippingCharges,
     totalAmount,
     user,
-    payment_id
+    payment_id,
   } = req.body;
-
-
-
 
   const orderOptions = {
     shippingInfo,
@@ -64,49 +55,44 @@ export const createOrderOnline = asyncError(async (req, res, next) => {
     shippingCharges,
     totalAmount,
     user,
-    payment_id
+    payment_id,
   };
 
   await Order.create(orderOptions);
 
   res.status(201).json({
     success: true,
-    message: "Order created successfully"
+    message: "Order created successfully",
   });
 });
 
-
-
 export const createPaymentIntent = asyncError(async (req, res, next) => {
-
   const stripe = new Stripe(process.env.STRIPE_API_SECRET);
-
 
   const { total } = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: Number(total) * 100,
-    currency: "inr"
-  })
+    currency: "inr",
+  });
 
   res.status(200).json({
     success: true,
     clientSecret: paymentIntent.client_secret,
-  })
-
+  });
 });
 
 export const getStripeAPiKey = asyncError(async (req, res, next) => {
-
   res.status(200).json({
     success: true,
     stripeApiKey: process.env.STRIPE_API_KEY,
-  })
-})
+  });
+});
 
 export const getMyOrders = asyncError(async (req, res, next) => {
-
-
-  const orders = await Order.find({ user: req.query.user }).populate("user", "name");
+  const orders = await Order.find({ user: req.query.user }).populate(
+    "user",
+    "name"
+  );
 
   res.status(200).json({
     success: true,
@@ -122,8 +108,3 @@ export const getOrderDetails = asyncError(async (req, res, next) => {
     order,
   });
 });
-
-
-
-
-

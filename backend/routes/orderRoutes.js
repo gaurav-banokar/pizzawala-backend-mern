@@ -21,8 +21,8 @@ router.get("/myOrders",isAuthenticated, getMyOrders);// add isAuthenticated midd
 router.get("/myOrders/order",isAuthenticated, getOrderDetails);
 
 
-router.post("/create-payment-intent",createPaymentIntent)
-router.get("/stripeApiKey",getStripeAPiKey)
+router.post("/create-payment-intent",isAuthenticated,createPaymentIntent)
+router.get("/stripeApiKey",isAuthenticated,getStripeAPiKey)
 
 router.post("/createOrderOnline",isAuthenticated,createOrderOnline) // add isAuthenticated middleware
 
