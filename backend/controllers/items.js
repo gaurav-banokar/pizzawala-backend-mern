@@ -2,15 +2,21 @@ import { asyncError } from "../middlewares/errorMiddleware.js";
 import { Item } from "../models/Item.js";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
+import { cache } from "../app.js";
 
 export const getAllItemsBySearch = asyncError(async (req, res) => {
   const sideAndBeveragesArr = ["bread", "dips", "desserts"];
   const keyword = req.query.keyword.toLowerCase();
 
   let items = [];
-  items = await Item.find({
+   items = await Item.find({
     itemName: {
-      $regex: `^${keyword}`,
+      
+        "$or": [
+          { "$regex": { "$in": [`.*${keyword}.*`, `^non`] } },
+          { "$regex": { "$in": [`.*${keyword}.*` , `^veg`] } }
+        ]  
+      ,
       $options: "i",
     },
   });
@@ -50,7 +56,14 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
 });
 
 export const getAllItemsByCategory = asyncError(async (req, res) => {
+ const cacheKey = 'products';
+  const cacheProducts = cache.get(cacheKey); 
+
+  if(cacheProducts) {
+    return res.json(cacheProducts);
+  }
   const items = await Item.find({ itemCategory: req.query.category });
+  cache.set(cacheKey,items,60*10)
   res.status(200).json({
     success: true,
     items,
