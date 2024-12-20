@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectPassport } from "./utils/Provider.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import NodeCache from "node-cache";
 import passport from "passport";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
@@ -13,6 +14,8 @@ export default app;
 dotenv.config({
   path: "./config/config.env",
 });
+//node-cache
+export const cache = new NodeCache({stdTTL:60 * 10});
 
 // Using Middlewares
 app.use(
