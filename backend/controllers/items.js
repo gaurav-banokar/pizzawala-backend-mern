@@ -56,7 +56,7 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
 });
 
 export const getAllItemsByCategory = asyncError(async (req, res) => {
- const cacheKey = 'products';
+ const cacheKey = req.query.category;
   const cacheProducts = cache.get(cacheKey); 
 
   if(cacheProducts) {
@@ -64,9 +64,11 @@ export const getAllItemsByCategory = asyncError(async (req, res) => {
   }
   const items = await Item.find({ itemCategory: req.query.category });
   cache.set(cacheKey,items,60*10)
+
+  const newCacheProducts = cache.get(cacheKey);
   res.status(200).json({
     success: true,
-    items,
+    newCacheProducts
   });
 });
 
