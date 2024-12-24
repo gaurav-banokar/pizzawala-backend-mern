@@ -15,7 +15,7 @@ dotenv.config({
   path: "./config/config.env",
 });
 //node-cache
-export const cache = new NodeCache({stdTTL:60 * 10});
+export const cache = new NodeCache({stdTTL:0});
 
 // Using Middlewares
 app.use(
