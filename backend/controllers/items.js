@@ -63,6 +63,8 @@ export const getAllItemsByCategory = asyncError(async (req, res) => {
     return res.json({newCacheProducts:cacheProducts});
   }
   const items = await Item.find({ itemCategory: req.query.category });
+  console.log(items);
+  
   cache.set(cacheKey,items)
 
   const newCacheProducts = cache.get(cacheKey);

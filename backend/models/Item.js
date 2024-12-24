@@ -10,13 +10,16 @@ const itemSchema = new mongoose.Schema({
         required:true,
     },
     itemImage:{
+        type:Object,
+        required:true,
         public_id: {
             type:String,
-
+            required:true
         },
         url: {
-            type:String
-        }
+            type:String,
+            required:true
+        }      
     },
     itemPrice: {
         type:String,
