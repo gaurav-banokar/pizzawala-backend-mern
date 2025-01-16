@@ -41,7 +41,7 @@ export const uploadProfileImage = asyncError(async (req, res, next) => {
   });
 });
 
-export const getProfilePhoto = asyncError(async () => {
+export const getProfilePhoto = asyncError(async (req,res,next) => {
   const userId = req.query.user;
 
   const user = await User.findOne({ _id: userId });
