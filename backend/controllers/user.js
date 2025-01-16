@@ -43,7 +43,9 @@ export const uploadProfileImage = asyncError(async (req, res, next) => {
 
 export const getProfilePhoto = asyncError(async (req,res,next) => {
   const userId = req.query.user;
-
+  if(!userId) {
+    return next(new ErrorHandler("Not Found Profile",404))
+  }
   const user = await User.findOne({ _id: userId });
   const image = user.profilePhoto;
 
