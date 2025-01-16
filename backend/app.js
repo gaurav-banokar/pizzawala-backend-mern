@@ -15,7 +15,7 @@ dotenv.config({
   path: "./config/config.env",
 });
 //node-cache
-export const cache = new NodeCache({stdTTL:0});
+export const cache = new NodeCache({ stdTTL: 0 });
 
 // Using Middlewares
 app.use(
@@ -57,7 +57,7 @@ connectPassport();
 // Importing Routes
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
-import itemRoutes from "./routes/itemRoutes.js"
+import itemRoutes from "./routes/itemRoutes.js";
 
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", orderRoutes);

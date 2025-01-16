@@ -24,22 +24,20 @@ router.get(
   passport.authenticate("google"),
 
   (req, res) => {
-
-    res.redirect(process.env.FRONTEND_URL)
+    res.redirect(process.env.FRONTEND_URL);
   }
-
-
 );
 
 router.get("/me", isAuthenticated, myProfile);
-router.get("/profile-photo",isAuthenticated,getProfilePhoto)
-router.post("/upload-profile-photo",isAuthenticated,singleUpload, uploadProfileImage)
-router.post("/contact", isAuthenticated, createContactData)
+router.get("/profile-photo", isAuthenticated, getProfilePhoto);
+router.post(
+  "/upload-profile-photo",
+  isAuthenticated,
+  singleUpload,
+  uploadProfileImage
+);
+router.post("/contact", isAuthenticated, createContactData);
 
-router.get("/logout",isAuthenticated, logout);
-
-
-
-
+router.get("/logout", isAuthenticated, logout);
 
 export default router;

@@ -13,21 +13,27 @@ export const myProfile = asyncError(async (req, res, next) => {
 });
 
 export const uploadProfileImage = asyncError(async (req, res, next) => {
-  const { userId } = req.body;
+  const { user } = req.body;
 
   console.log(req.body);
   const file = req.file;
   const uri = getDataUri(file);
+
   const mycloud = await cloudinary.v2.uploader.upload(uri.content, {
     folder: "profile",
   });
 
-  await User.findOne({ _id: userId }).update({
-    profilePhoto: {
-      public_id: mycloud.public_id,
-      url: mycloud.secure_url,
-    },
-  });
+  await User.updateOne(
+    { _id: user },
+    {
+      $set: {
+        profilePhoto: {
+          public_id: mycloud.public_id,
+          url: mycloud.secure_url,
+        },
+      },
+    }
+  );
 
   res.status(200).json({
     success: true,
@@ -63,9 +69,10 @@ export const logout = asyncError((req, res, next) => {
 
 export const createContactData = asyncError(async (req, res, next) => {
   const { name, email, message } = req.body;
+  console.log(name, email);
 
   if (!name && !email && !message) {
-    return new ErrorHandler("Data provided is undefined", 404);
+    return next(new ErrorHandler("Data provided is undefined", 404));
   }
 
   await Contact.create({ name, email, message });

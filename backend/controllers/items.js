@@ -13,8 +13,8 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
     itemName: {
       
         "$or": [
-          { "$regex": { "$in": [`.*${keyword}.*`, `^non`] } },
-          { "$regex": { "$in": [`.*${keyword}.*` , `^veg`] } }
+          { "$regex": `.*${keyword}.*` },
+         
         ]  
       ,
       $options: "i",
@@ -56,14 +56,26 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
 });
 
 export const getAllItemsByCategory = asyncError(async (req, res) => {
+ 
+  
  const cacheKey = req.query.category;
   const cacheProducts = cache.get(cacheKey); 
+
+  Item.watch().on("change", async () => {
+    if (change.operationType === 'insert' || change.operationType === 'update' || change.operationType === 'delete') {
+      cache.del(cacheKey)
+      const items = await Item.find({ itemCategory: req.query.category });
+      cache.set(cacheKey,items)
+  
+  }
+  })
 
   if(cacheProducts) {
     return res.json({newCacheProducts:cacheProducts});
   }
+  
   const items = await Item.find({ itemCategory: req.query.category });
-  console.log(items);
+  
   
   cache.set(cacheKey,items)
 
@@ -84,9 +96,9 @@ export const getItem = asyncError(async (req, res, next) => {
 });
 
 export const createItem = asyncError(async (req, res, next) => {
-  const { itemNumber, itemName, itemPrice } = req.body;
+  const { itemNumber, itemName, itemPrice, itemCategory } = req.body;
 
-  const itemCategory = "nonVeg";
+  
   const file = req.file;
 
   const fileUri = getDataUri(file);
