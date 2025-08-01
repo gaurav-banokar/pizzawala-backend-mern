@@ -5,7 +5,7 @@ import cloudinary from "cloudinary";
 import { cache } from "../app.js";
 
 export const getAllItemsBySearch = asyncError(async (req, res) => {
-  const sideAndBeveragesArr = ["bread", "dips", "desserts"];
+  
   const keyword = req.query.keyword.toLowerCase();
 
   const items = await Item.find({
@@ -20,7 +20,7 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
       success: true,
       items,
     });
-  }
+  
 });
 
 export const getAllItemsByCategory = asyncError(async (req, res) => {
