@@ -8,45 +8,13 @@ export const getAllItemsBySearch = asyncError(async (req, res) => {
   const sideAndBeveragesArr = ["bread", "dips", "desserts"];
   const keyword = req.query.keyword.toLowerCase();
 
-  let items = [];
-   items = await Item.find({
+  const items = await Item.find({
     itemName: {
-      
-        "$or": [
-          { "$regex": `.*${keyword}.*` },
-         
-        ]  
+      $regex:`\\b${keyword}\\b`
       ,
       $options: "i",
     },
   });
-  if (items.length !== 0) {
-    res.status(200).json({
-      success: true,
-      items,
-    });
-  } else {
-    let newkeyword;
-    if (keyword.startsWith("veg")) {
-      newkeyword = "vegPizza";
-    } else if (keyword.startsWith("non")) {
-      console.log("Non clickedd");
-      newkeyword = "nonVegPizza";
-    } else if (keyword.startsWith("pasta")) {
-      newkeyword = "pasta";
-    } else if (
-      sideAndBeveragesArr.includes(keyword) ||
-      sideAndBeveragesArr.includes(keyword) ||
-      sideAndBeveragesArr.includes(keyword)
-    ) {
-      newkeyword = "sideAndBeverages";
-    } else {
-      newkeyword;
-    }
-
-    const items = await Item.find({
-      itemCategory: newkeyword,
-    });
 
     res.status(200).json({
       success: true,
