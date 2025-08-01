@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/getAllItemsBySearch", getAllItemsBySearch);
 router.get("/getAllItemsByCategory",getAllItemsByCategory);
-router.get("/item/:id", getItem);
+router.get("/item/:id",isAuthenticated, getItem);
 router.post("/admin/item/new",isAuthenticated, authorizeAdmin,singleUpload, createItem)
 
 export default router;
