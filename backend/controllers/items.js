@@ -91,3 +91,20 @@ export const createItem = asyncError(async (req, res, next) => {
     message: "Item Created Successfully",
   });
 });
+
+export const saveCartItems = asynError(async(req, res, next) => {
+  const { id, name, price, image, quantity } = req.body;
+
+  
+  const file = req.file;
+
+  const fileUri = getDataUri(file);
+
+  const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
+    folder: "cartitems",
+  });
+
+ 
+  
+  
+})
